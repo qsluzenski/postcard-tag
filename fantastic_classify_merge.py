@@ -38,8 +38,8 @@ print("Merged data written to", output_file_path)
 # Load content from JSON file
 with open(output_file_path, "r") as json_file:
     data = json.load(json_file)
-#needs updating
-header = ["retired", "Original file name", "Original file name_1", "#Unique identifier", "#Unique identifier_1", "#Unique identifier backs", "#Unique identifier fronts", "T1", "T2", "T3", "T6", "T7", "T8", "T9", "T11", "T14", "T15", "T17", "T18", "T19", "T20", "T21"]
+
+header = ["FILENAME", "FILENAME2", "Title", "User-generated title", "Date", "Postmark Date", "Publisher", "State", "Country", "City", "Body of water", "Unidentified", "Category", "Subject 1", "Subject 2", "Subject 3", "Other information"]
 
 # Write JSON data to CSV
 with open(csv_file_path, "w", newline="") as csv_file:
