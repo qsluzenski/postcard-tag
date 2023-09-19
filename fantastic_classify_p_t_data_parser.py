@@ -28,41 +28,41 @@ def find_task_values(csv_file_path):
                                                     if "details" in d:
                                                         for v in d["details"]:
                                                             if "value" in v:
-                                                                outpObj["Caption"] = v["value"]
+                                                                outpObj["Title"] = v["value"]
                                                 if d["tool_label"] == 'Title/caption':
                                                     if "details" in d:
                                                         for v in d["details"]:
                                                             if "value" in v:
-                                                                outpObj["Caption"] = v["value"]
+                                                                outpObj["Title"] = v["value"]
                                                 if d["tool_label"] == 'Date (postmark - year only)':
                                                     if "details" in d:
                                                         for v in d["details"]:
                                                             if "value" in v:
-                                                                outpObj["Postmark"] = v["value"]
+                                                                outpObj["Postmark Date"] = v["value"]
                                                 if d["tool_label"] == 'Date (publication or copyright)':
                                                     if "details" in d:
                                                         for v in d["details"]:
                                                             if "value" in v:
-                                                                outpObj["Publication"] = v["value"]
+                                                                outpObj["Date"] = v["value"]
                                                 if d["tool_label"] == 'Publisher':
                                                     if "details" in d:
                                                         for v in d["details"]:
                                                             if "value" in v:
                                                                 outpObj["Publisher"] = v["value"]
                                         elif j['task'] == 'T2' and len(j["value"]) > 0:
-                                            outpObj["User-written caption"] = j["value"]
+                                            outpObj["User-generated title"] = j["value"]
                                 if i['task'] == 'T27':
                                     for d in i["value"]:
                                         if d["tool_label"] == 'Date -- postmark':
                                             if "details" in d:
                                                 for v in d["details"]:
                                                     if "value" in v:
-                                                        outpObj["Postmark"] = v["value"]
+                                                        outpObj["Postmark Date"] = v["value"]
                                         if d["tool_label"] == 'Date -- publication or copyright':
                                             if "details" in d:
                                                 for v in d["details"]:
                                                     if "value" in v:
-                                                        outpObj["Publication"] = v["value"]
+                                                        outpObj["Date"] = v["value"]
                                         if d["tool_label"] == 'Publisher':
                                             if "details" in d:
                                                 for v in d["details"]:
