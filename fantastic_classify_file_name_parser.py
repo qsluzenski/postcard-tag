@@ -3,7 +3,6 @@ import json
 
 def parse_csv_and_save_as_json(input_file, output_file):
     output_list = []
-    skip_count = 0
 
     # Read the CSV file
     with open(input_file, 'r', encoding='utf-8') as csvfile:
