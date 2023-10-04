@@ -39,7 +39,7 @@ print("Merged data written to", output_file_path)
 with open(output_file_path, "r") as json_file:
     data = json.load(json_file)
 
-header = ["retired", "Original file name", "Original file name_1", "#Unique identifier", "#Unique identifier_1", "#Unique identifier backs", "#Unique identifier fronts", "T1", "T2", "T3", "T6", "T7", "T8", "T9", "T11", "T14", "T15", "T17", "T18", "T19", "T20", "T21"]
+header = ["retired", "Original file name", "Original file name_1", "#Unique identifier", "#Unique identifier_1", "#Unique identifier backs", "#Unique identifier fronts", "Title", "Language", "Date", "Postmark date", "Publisher", "City", "State", "Country", "Body of water", "Subject", "Subject 2", "Unidentified"]
 
 # Write JSON data to CSV
 with open(csv_file_path, "w", newline="") as csv_file:
@@ -50,7 +50,7 @@ with open(csv_file_path, "w", newline="") as csv_file:
     
     # Write each dictionary as a row in the CSV file
     for entry in data:
-        if entry["retired"] is not None:  # Only write if "retired" is not null
+        #if entry["retired"] is not None:  # Only write if "retired" is not null
             csv_writer.writerow(entry)
 
 print("JSON data converted to CSV:", csv_file_path)

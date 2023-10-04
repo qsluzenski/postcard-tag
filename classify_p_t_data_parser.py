@@ -39,54 +39,53 @@ def find_task_values(csv_file_path):
                                     if i['task'] == 'T0':
                                         for j in i["value"]:
                                             if j['task'] == 'T1' and len(j["value"]) > 0:
-                                                outpObj["T1"] = j["value"]
+                                                outpObj["Title"] = j["value"]
                                             elif j['task'] == 'T2':
                                                 for l in j["value"]:
                                                     if "label" in l:
-                                                        outpObj["T2"] = l["label"]
+                                                        outpObj["Language"] = l["label"]
                                             elif j['task'] == 'T3' and len(j["value"]) > 0:
-                                                outpObj["T3"] = j["value"]
+                                                outpObj["Title"] = j["value"]
                                     if i['task'] == 'T5':
                                         for j in i["value"]:
                                             if j['task'] == 'T6':
-                                                outpObj[ "T6" ] = []
+                                                outpObj[ "Subject" ] = []
                                                 for q in j["value"]:
-                                                    outpObj[ "T6" ].append(q["choice"])
+                                                    outpObj[ "Subject" ].append(q["choice"])
                                                     try: 
                                                         question = qa_pairs[q["choice"]]
                                                         if len(q["answers"][question]) > 0:
                                                             for a in q["answers"][question]:
-                                                                #print(a)
-                                                                outpObj[ "T6" ].append(a)
+                                                                outpObj[ "Subject" ].append(a)
                                                     # if this choice doesnt have a question / isn't in our QA dict, move on
                                                     except KeyError: 
                                                         pass
                                             elif j['task'] == 'T7' and len( j["value"] ) > 0:
-                                                outpObj["T7"] = j["value"]
+                                                outpObj["Subject 2"] = j["value"]
                                     if i['task'] == 'T8':
                                         for j in i["value"]:
                                             if j['task'] == 'T9' and len( j["value"] ) > 0:
-                                                outpObj["T9"] = j["value"]
+                                                outpObj["Date"] = j["value"]
                                             elif j['task'] == 'T11' and len( j["value"] ) > 0:
-                                                outpObj["T11"] = j["value"]
+                                                outpObj["Publisher"] = j["value"]
                                             elif j['task'] == 'T20' and len( j["value"] ) > 0:
-                                                outpObj["T20"] = j["value"]
+                                                outpObj["Postmark date"] = j["value"]
                                     if i['task'] == 'T12':
                                         for j in i["value"]:
                                             if j['task'] == 'T14':
                                                 for l in j["value"]:
                                                     if "label" in l:
-                                                        outpObj["T14"] = l["label"]
+                                                        outpObj["State"] = l["label"]
                                             elif j['task'] == 'T15' and len(j["value"]) > 0:
-                                                outpObj["T15"] = j["value"]
+                                                outpObj["City"] = j["value"]
                                             elif j['task'] == 'T17' and len(j["value"]) > 0:
-                                                outpObj["T17"] = j["value"]
+                                                outpObj["Country"] = j["value"]
                                             elif j['task'] == 'T18' and len(j["value"]) > 0:
-                                                outpObj["T18"] = j["value"]
+                                                outpObj["City"] = j["value"]
                                             elif j['task'] == 'T21' and len(j["value"]) > 0:
-                                                outpObj["T21"] = j["value"]
+                                                outpObj["Body of water"] = j["value"]
                                             elif j['task'] == 'T19':
-                                                outpObj["T19"] = j["value"]
+                                                outpObj["Unidentified"] = j["value"]
                                 output.append(outpObj)
                         else:
                             skip_count += 1

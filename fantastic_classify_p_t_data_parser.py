@@ -50,7 +50,7 @@ def find_task_values(csv_file_path):
                                                             if "value" in v:
                                                                 outpObj["Publisher"] = v["value"]
                                         elif j['task'] == 'T2' and len(j["value"]) > 0:
-                                            outpObj["User-generated title"] = j["value"]
+                                            outpObj["Title"] = j["value"]
                                 if i['task'] == 'T27':
                                     for d in i["value"]:
                                         if d["tool_label"] == 'Date -- postmark':

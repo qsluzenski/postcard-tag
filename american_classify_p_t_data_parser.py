@@ -30,24 +30,24 @@ def find_task_values(csv_file_path):
                                                             if "value" in v:
                                                                 outpObj["Title"] = v["value"]
                                         elif j['task'] == 'T2' and len(j["value"]) > 0:
-                                            outpObj["User-generated title"] = j["value"]
-                                if j['task'] == 'T3':
-                                            for d in j["value"]:
-                                                if d["tool_label"] == 'Production number':
-                                                    if "details" in d:
-                                                        for v in d["details"]:
-                                                            if "value" in v:
-                                                                outpObj["Production number"] = v["value"]
-                                                elif d["tool_label"] == 'Publisher':
-                                                    if "details" in d:
-                                                        for v in d["details"]:
-                                                            if "value" in v:
-                                                                outpObj["Publisher"] = v["value"]
-                                                elif d["tool_label"] == 'Date':
-                                                    if "details" in d:
-                                                        for v in d["details"]:
-                                                            if "value" in v:
-                                                                outpObj["Date"] = v["value"]
+                                            outpObj["Title"] = j["value"]
+                                if i['task'] == 'T3':
+                                    for d in i["value"]:
+                                        if d["tool_label"] == 'Production number':
+                                            if "details" in d:
+                                                for v in d["details"]:
+                                                    if "value" in v:
+                                                        outpObj["Production number"] = v["value"]
+                                        elif d["tool_label"] == 'Publisher':
+                                            if "details" in d:
+                                                for v in d["details"]:
+                                                    if "value" in v:
+                                                        outpObj["Publisher"] = v["value"]
+                                        elif d["tool_label"] == 'Date':
+                                            if "details" in d:
+                                                for v in d["details"]:
+                                                    if "value" in v:
+                                                        outpObj["Date"] = v["value"]
                                 if i['task'] == 'T4':
                                     for j in i["value"]:
                                         if j['task'] == 'T5':

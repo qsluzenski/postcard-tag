@@ -7,7 +7,7 @@ output_file_path = "american_classify_merged_output.json"  # Specify the desired
 csv_file_path = "american_classify_merged.csv"
 
 # Load content from JSON files
-with open(json_file_path1, "r") as file1, open(json_file_path2, "r") as file2:
+with open(json_file_path1, "r", encoding='utf-8') as file1, open(json_file_path2, "r", encoding='utf-8') as file2:
     data1 = json.load(file1)
     data2 = json.load(file2)
 
@@ -39,10 +39,10 @@ print("Merged data written to", output_file_path)
 with open(output_file_path, "r") as json_file:
     data = json.load(json_file)
 
-header = ["FILENAME", "FILENAME2", "Title", "User-generated title", "Date", "Publisher", "State", "Country", "City", "Body of water", "Unidentified", "Category", "Subject 1", "Subject 2", "Subject 3", "Other information"]
+header = ["retired", "SUBJECT", "FILENAME", "Title", "Date", "Publisher", "Production number", "State", "Country", "City", "Body of water", "Unidentified", "Category", "Subject 1", "Subject 2", "Subject 3", "Other information"]
 
 # Write JSON data to CSV
-with open(csv_file_path, "w", newline="") as csv_file:
+with open(csv_file_path, "w", newline="", encoding='utf-8') as csv_file:
     csv_writer = csv.DictWriter(csv_file, fieldnames=header)
     
     # Write the header row

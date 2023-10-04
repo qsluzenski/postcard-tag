@@ -28,9 +28,6 @@ for index, row in df.iterrows():
 
 df[column_name] = df['Category'].fillna('') + ' | ' + df['Subject 1'].fillna('') + ' | ' + df['Subject 2'].fillna('') + ' | ' + df['Subject 3'].fillna('')
 
-# Drop the extra columns
-df = df.drop(['Subject 1', 'Subject 2', 'Subject 3', 'Postmark Date', 'retired', 'Body of water', 'Unidentified'], axis=1)
-
 def create_location(row):
     if row['Country'] != 'United States' and pd.isna(row['State']) and pd.notna(row['City']):
         return f"{row['Country']}--{row['City']}"
@@ -46,7 +43,51 @@ def create_location(row):
 # Apply the custom function to create the "Location" column
 df['Location'] = df.apply(create_location, axis=1)
 
+df = df.drop(['State', 'Country', 'City', 'Subject 1', 'Subject 2', 'Subject 3', 'Postmark Date', 'retired', 'Body of water', 'Unidentified'], axis=1)
+
+# Create a list to store the duplicated and modified rows
+#new_rows = []
+
+# Iterate through each row in the original DataFrame
+"""for _, row in df.iterrows():
+    # Check if FILENAME and FILENAME2 have values
+    if not pd.isna(row['FILENAME']) and not pd.isna(row['FILENAME2']):
+        # Create two new rows with 'Original file name' set to FILENAME and FILENAME2
+        new_row1 = row.copy()
+        new_row2 = row.copy()
+        
+        new_row1['Original file name'] = row['FILENAME']
+        new_row2['Original file name'] = row['FILENAME2']
+        
+        # Append the new rows to the list
+        new_rows.extend([new_row1, new_row2])
+    
+    # Check if FILENAME1 and FILENAME2 have values
+    elif not pd.isna(row['FILENAME1']) and not pd.isna(row['FILENAME2']):
+        # Create two new rows with 'Original file name' set to FILENAME1 and FILENAME2
+        new_row1 = row.copy()
+        new_row2 = row.copy()
+        
+        new_row1['Original file name'] = row['FILENAME1']
+        new_row2['Original file name'] = row['FILENAME2']
+        
+        # Append the new rows to the list
+        new_rows.extend([new_row1, new_row2])
+    else:
+        # If neither condition is met, just append the original row
+        new_rows.append(row)
+
+# Create a new DataFrame from the list of new rows
+# df = pd.DataFrame(new_rows) """
+
+#df['Original file name'] = df['Original file name'].str.replace('_o3.jpg', '.tif')
+df['Subjects'] = df['Category']
+
+# Drop the extra columns
+df = df.drop(['Category'], axis=1)
+
 # Save the modified DataFrame to a new CSV file
 df.to_csv(output_csv_file, index=False)
+#new_df.to_csv(output_csv_file, index=False)
 
 print("CSV transformation complete. Saved as:", output_csv_file)

@@ -39,7 +39,7 @@ print("Merged data written to", output_file_path)
 with open(output_file_path, "r", encoding='utf-8') as json_file:
     data = json.load(json_file)
 
-header = ["retired", "FILENAME", "FILENAME1", "FILENAME2", "Title", "User-generated title", "Date", "Postmark Date", "Publisher", "State", "Country", "City", "Body of water", "Unidentified", "Category", "Subject 1", "Subject 2", "Subject 3", "Other information"]
+header = ["retired", "FILENAME", "FILENAME1", "FILENAME2", "Title", "Date", "Postmark Date", "Publisher", "State", "Country", "City", "Body of water", "Unidentified", "Category", "Subject 1", "Subject 2", "Subject 3", "Other information"]
 
 # Write JSON data to CSV
 with open(csv_file_path, "w", newline="", encoding='utf-8') as csv_file:
