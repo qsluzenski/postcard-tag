@@ -9,9 +9,9 @@ Scripts in order:
 3. merge
 4. cortex_prep
 
-No prefix: current classify workflow as of 2023, for Monroe General and Bossier cards
-Fantastic: "Fantastic Scenes" workflow
-American: "American Scenes" workflow
-Transcribe: Transcribe Handwritten Messages
+- No prefix: current classify workflow as of 2023, for Monroe General and Bossier cards
+- Fantastic: "Fantastic Scenes" workflow
+- American: "American Scenes" workflow
+- Transcribe: Transcribe Handwritten Messages
 
 Full guide to the code and how to adapt the code to future workflows coming soon.
