@@ -26,10 +26,10 @@ def find_task_values(csv_file_path):
                                         for j in i["value"]:
                                             if j['task'] == 'T5' and len(j["value"]) > 0:
                                                 outpObj["T5"] = j["value"]
-                                            elif j['task'] == '7':
+                                            elif j['task'] == 'T7':
                                                 for l in j["value"]:
                                                     if "label" in l:
-                                                        outpObj["T7"] = l["label"]
+                                                        outpObj["Language"] = l["label"]
                                             elif j['task'] == 'T6' and len(j["value"]) > 0:
                                                 outpObj["T6"] = j["value"]
                                 output.append(outpObj)
