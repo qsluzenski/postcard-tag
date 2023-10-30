@@ -14,4 +14,4 @@ Scripts in order:
 - American: "American Scenes" workflow
 - Transcribe: Transcribe Handwritten Messages
 
-Full guide to the code and how to adapt the code to future workflows coming soon.
+A guide to the types of Zooniverse questions and corresponding code, for help in adapting this to future worklows, is [here](https://docs.google.com/document/d/1pJ4uIKwmt7pRuLJ2i6_pYVdyEmPfQExbEFA79VpirmM/edit?usp=sharing)https://docs.google.com/document/d/1pJ4uIKwmt7pRuLJ2i6_pYVdyEmPfQExbEFA79VpirmM/edit?usp=sharing).
