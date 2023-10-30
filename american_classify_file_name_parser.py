@@ -5,7 +5,7 @@ def parse_csv_and_save_as_json(input_file, output_file):
     output_list = []
     skip_count = 0
 
-    # Read the CSV file
+    # Read the CSV file and pull out the file name information
     with open(input_file, 'r', encoding='utf-8') as csvfile:
         csv_reader = csv.reader(csvfile)
         next(csv_reader)

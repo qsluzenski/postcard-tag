@@ -8,7 +8,7 @@ output_csv_file = 'fantastic_classify_ready.csv'  # Replace with your desired ou
 # Read the CSV file into a pandas DataFrame
 df = pd.read_csv(input_csv_file)
 
-# Define the replacement dictionary for phrases
+# Define the replacement dictionary for phrases in the data to replace with subject headings
 replacement_dict = {
     "Haley's Comet / End of the world": "Halley's Comet",
     "Oversized or imaginary animals": "Animals | Humor",
@@ -19,15 +19,17 @@ replacement_dict = {
 }
 
 # Define the column where you want to perform replacements
-column_name = 'Category'  # Replace with the actual column name
+column_name = 'Category'
 
 # Iterate through all rows and perform replacements
 for index, row in df.iterrows():
     for old_phrase, new_phrase in replacement_dict.items():
         row[column_name] = row[column_name].replace(old_phrase, new_phrase)
 
+# Combine the subject columns into one subject heading column
 df[column_name] = df['Category'].fillna('') + ' | ' + df['Subject 1'].fillna('') + ' | ' + df['Subject 2'].fillna('') + ' | ' + df['Subject 3'].fillna('')
 
+# Convert the location input into one location column
 def create_location(row):
     if row['Country'] != 'United States' and pd.isna(row['State']) and pd.notna(row['City']):
         return f"{row['Country']}--{row['City']}"
@@ -43,13 +45,14 @@ def create_location(row):
 # Apply the custom function to create the "Location" column
 df['Location'] = df.apply(create_location, axis=1)
 
+# Remove unnecessary columns
 df = df.drop(['State', 'Country', 'City', 'Subject 1', 'Subject 2', 'Subject 3', 'Postmark Date', 'retired', 'Body of water', 'Unidentified'], axis=1)
 
 # Create a list to store the duplicated and modified rows
-#new_rows = []
+"""new_rows = []
 
-# Iterate through each row in the original DataFrame
-"""for _, row in df.iterrows():
+# Duplicate each row so that there is one row for the front and one row for the back
+for _, row in df.iterrows():
     # Check if FILENAME and FILENAME2 have values
     if not pd.isna(row['FILENAME']) and not pd.isna(row['FILENAME2']):
         # Create two new rows with 'Original file name' set to FILENAME and FILENAME2
@@ -82,8 +85,6 @@ df = df.drop(['State', 'Country', 'City', 'Subject 1', 'Subject 2', 'Subject 3',
 
 #df['Original file name'] = df['Original file name'].str.replace('_o3.jpg', '.tif')
 df['Subjects'] = df['Category']
-
-# Drop the extra columns
 df = df.drop(['Category'], axis=1)
 
 # Save the modified DataFrame to a new CSV file

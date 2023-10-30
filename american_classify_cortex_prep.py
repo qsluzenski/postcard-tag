@@ -8,7 +8,7 @@ output_csv_file = 'american_classify_ready.csv'  # Replace with your desired out
 # Read the CSV file into a pandas DataFrame
 df = pd.read_csv(input_csv_file)
 
-# Define the replacement dictionary for phrases
+# Define the replacement dictionary for phrases in the data to replace with subject headings
 replacement_dict = {
     "Aerial views & skylines": "Aerial views",
     "Beaches & bodies of water": "Beaches | Bodies of water",
@@ -34,8 +34,10 @@ for index, row in df.iterrows():
     for old_phrase, new_phrase in replacement_dict.items():
         row[column_name] = row[column_name].replace(old_phrase, new_phrase)
 
+# Combine the category columns into one subject heading column
 df[column_name] = df['Category'].fillna('') + ' | ' + df['Subject 1'].fillna('') + ' | ' + df['Subject 2'].fillna('') + ' | ' + df['Subject 3'].fillna('')
 
+# Convert the location input into one location column
 def create_location(row):
     if row['Country'] != 'United States' and pd.isna(row['State']) and pd.notna(row['City']):
         return f"{row['Country']}--{row['City']}"
@@ -54,6 +56,7 @@ df['Location'] = df.apply(create_location, axis=1)
 df['Original file name'] = df['FILENAME'].str.replace('_o3.jpg', '.tif')
 df['Subjects'] = df['Category']
 
+# Remove unnecessary columns
 df = df.drop(['Category', 'State', 'Country', 'City', 'Subject 1', 'Subject 2', 'Subject 3', 'retired', 'SUBJECT', 'Body of water', 'Unidentified', 'FILENAME'], axis=1)
 
 # Save the modified DataFrame to a new CSV file

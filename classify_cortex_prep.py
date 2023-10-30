@@ -7,7 +7,7 @@ output_csv_file = 'classify_cortex_ready.csv'  # Replace with your desired outpu
 # Read the CSV file into a pandas DataFrame
 df = pd.read_csv(input_csv_file)
 
-# Define the replacement dictionary for phrases
+# Define the replacement dictionary for phrases in the data to replace with subject headings
 replacement_dict = {
     "'ADVERTISEMENTS'": "Advertisements",
     "'AGRICULTURE'": "Agriculture",
@@ -98,15 +98,17 @@ replacement_dict = {
 }
 
 # Define the column where you want to perform replacements
-column_name = 'Subject'  # Replace with the actual column name
+column_name = 'Subject'
 
 # Iterate through all rows and perform replacements
 for index, row in df.iterrows():
     for old_phrase, new_phrase in replacement_dict.items():
         row[column_name] = row[column_name].replace(old_phrase, new_phrase)
 
+# Combine the subject columns into one subject heading column
 df[column_name] = df['Subject'].fillna('') + ' | ' + df['Subject 2'].fillna('')
 
+# Convert the location input into one location column
 def create_location(row):
     if row['Country'] != 'United States' and pd.isna(row['State']) and pd.notna(row['City']):
         return f"{row['Country']}--{row['City']}"
@@ -122,9 +124,10 @@ def create_location(row):
 # Apply the custom function to create the "Location" column
 df['Location'] = df.apply(create_location, axis=1)
 
+# Remove unnecessary columns
 df = df.drop(['State', 'Country', 'City', 'Subject 2', 'retired', 'Body of water', 'Unidentified', '#Unique identifier', '#Unique identifier_1', '#Unique identifier backs', '#Unique identifier fronts'], axis=1)
 
-# Create a list to store the duplicated and modified rows
+# Duplicate each row so that there is one row for the front and one row for the back
 new_rows = []
 
 for _, row in df.iterrows():
@@ -142,7 +145,7 @@ df = pd.DataFrame(new_rows)
 
 df['Original file name'] = df['Original file name'].str.replace('_o3.jpg', '.tif')
 
-# Drop the extra columns
+# Drop the extra file name column
 df = df.drop(['Original file name_1'], axis=1)
 
 # Save the modified DataFrame to a new CSV file

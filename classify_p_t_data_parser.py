@@ -1,6 +1,7 @@
 import csv
 import json
 
+# Identify the subject/question pairs for the subjects with question options
 qa_pairs = {
     "HUMOR": "ISTHECARDACARTOON",
     "ANIMALS": "WHATKINDOFANIMAL",
@@ -20,7 +21,7 @@ def save_dict_to_json(data_dict, file_path):
         json.dump(data_dict, json_file, indent=4)
 
 def find_task_values(csv_file_path):
-    # We will parse each row and push the results into this list
+    # Parse each row and push the results into this list
     output = [] 
     justJson = []
     skip_count = 0
@@ -36,6 +37,7 @@ def find_task_values(csv_file_path):
                                 # this is the row's output, which will be pushed into the final list
                                 outpObj = {}
                                 for i in data_dict:
+                                # Structure of required code for each Zooniverse question type described in Postcard Tag bible
                                     if i['task'] == 'T0':
                                         for j in i["value"]:
                                             if j['task'] == 'T1' and len(j["value"]) > 0:

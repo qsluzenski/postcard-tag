@@ -20,6 +20,7 @@ def find_task_values(csv_file_path):
                             # this is the row's output, which will be pushed into the final list
                             outpObj = {}
                             for i in data_dict:
+                            # Structure of required code for each Zooniverse question type described in Postcard Tag bible
                                 if i['task'] == 'T0':
                                     for j in i["value"]:
                                         if j['task'] == 'T1':
