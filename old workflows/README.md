@@ -1,0 +1,1 @@
+These scripts are, frankly, ridiculous. I wrote them before I actually knew any Python and they are cobbled together. However, these are older workflows so it wasn't worth it to clean them up. They're all saved in this folder in case we ever need them, but I hope we don't.
