@@ -66,7 +66,7 @@ def find_task_values(raw_csv):
                                     elif j['task'] == 'T11' and len(j["value"]) > 0:  # task: user-written caption
                                         output_data["Title"] = j["value"]  # output to Title field
                                     elif j['task'] == 'T9' and len(j['value']) > 0:  # task: year of publication
-                                        output_data["Year"] = j["value"]  # output to Year field
+                                        output_data["Date"] = j["value"]  # output to Date field
                             if i['task'] == 'T12':  # task category code for location page
                                 for j in i["value"]:
                                     if j['task'] == 'T14':  # task: state (dropdown menu)
@@ -80,14 +80,14 @@ def find_task_values(raw_csv):
                             if i['task'] == 'T5':  # task category code for business subject page
                                 for j in i["value"]:
                                     if j['task'] == 'T6':  # task: subject; survey task. requires QA dict
-                                        output_data["Subject"] = []
+                                        output_data["Business Subject"] = []
                                         for q in j["value"]:
-                                            output_data["Subject"].append(q["choice"])
+                                            output_data["Business Subject"].append(q["choice"])
                                             try:
                                                 question = qa_pairs_business[q["choice"]]
                                                 if len(q["answers"][question]) > 0:
                                                     for a in q["answers"][question]:
-                                                        output_data["Subject"].append(a)  # output to Subject field
+                                                        output_data["Business Subject"].append(a)  # output to Business Subject field
                                             # if this choice doesn't have a question / isn't in our QA dict, move on
                                             except KeyError:
                                                 pass
@@ -96,14 +96,14 @@ def find_task_values(raw_csv):
                             if i['task'] == 'T17':  # task category code for image subject page
                                 for j in i["value"]:
                                     if j['task'] == 'T13':  # task: subject; survey task. requires QA dict
-                                        output_data["Subject"] = []
+                                        output_data["Image Subject"] = []
                                         for q in j["value"]:
-                                            output_data["Subject"].append(q["choice"])
+                                            output_data["Image Subject"].append(q["choice"])
                                             try:
                                                 question = qa_pairs_image[q["choice"]]
                                                 if len(q["answers"][question]) > 0:
                                                     for a in q["answers"][question]:
-                                                        output_data["Subject"].append(a)  # output to Subject field
+                                                        output_data["Image Subject"].append(a)  # output to Image Subject field
                                             # if this choice doesn't have a question / isn't in our QA dict, move on
                                             except KeyError:
                                                 pass
@@ -182,7 +182,7 @@ def merge_data_and_file_names(file_name_json_file, data_output_json_file):
 
     # Headers from the two JSON files for the new CSV
     header = ["retired", "#Front UI", "File name 1", "File name 2", "File name 3", "Title", "Language", "Date",
-              "City", "State", "Subject", "User subject", "Unidentified"]
+              "City", "State", "Business Subject", "Image Subject", "User subject", "Unidentified"]
 
     # Write JSON data to CSV
     with open(merged_csv, 'w', newline="", encoding='utf-8') as csv_file:
@@ -204,11 +204,15 @@ def cortex_prep(csv_merged):
     # Read the CSV file into a pandas DataFrame
     df = pd.read_csv(csv_merged)
 
+    # Combine the two subject columns
+
+    df['Subject'] = df['Business Subject'].fillna('') + ', ' + df['Image Subject'].fillna('')
+
     # Define the replacement dictionary for phrases in the data to replace with subject headings
     replacement_dict = {
         "'AGRICULTURE'": "Agriculture",
         "'BEVERAGES'": "Beverages",
-        "'BOOKSTORES:": "Bookstores",
+        "'BOOKSTORES'": "Bookstores",
         "'CLOTHING'": "Clothing",
         "'COLOGNE'": "Cologne",
         "'DRYGOODS'": "Dry goods",
@@ -216,9 +220,9 @@ def cortex_prep(csv_merged):
         "'GLASSES'": "Glasses",
         "'HOLIDAYS'": "Holidays",
         "'INTERIORDECORATION'": "Interior decoration",
-        "'Insurance'": "Insurance",
-        "'Jewelry'": "Jewelry",
-        "'Medicine'": "Medicine",
+        "'INSURANCE'": "Insurance",
+        "'JEWELRY'": "Jewelry",
+        "'MEDICINE'": "Medicine",
         "'MUSICALINSTRUMENTS'": "Musical instruments",
         "'PRINTING'": "Printing",
         "'SOAP'": "Soap",
@@ -268,24 +272,19 @@ def cortex_prep(csv_merged):
         "'CHILDREN'": "Children",
         "'BABIES'": "Babies",
         "'OTHER'": "",
-        "[": "",
-        "]": "",
+        r"\[": "",
+        r"\]": "",
         ", ": " | ",
     }
 
     column_name = 'Subject'
+    df[column_name] = df[column_name].astype(str)
 
     # Iterate through all rows and perform replacements
-    for index, row in df.iterrows():
-        for old_phrase, new_phrase in replacement_dict.items():
-            row[column_name] = row[column_name].replace(old_phrase, new_phrase)
+    df['Subject'] = df['Subject'].replace(replacement_dict, regex=True)
 
     # Apply the custom function to create the "Location" column
     df['Location'] = df.apply(create_location, axis=1)
-
-    # Remove unnecessary columns
-    df = df.drop(['State', 'City', 'retired', 'Unidentified', '#Front UI', 'File name 1', 'File name 2',
-                  'File name 3'], axis=1)
 
     # Duplicate each row so that there is one row for the front, back, and third face
     new_rows = []
@@ -305,10 +304,10 @@ def cortex_prep(csv_merged):
     # Create a new DataFrame from the list of new rows
     df = pd.DataFrame(new_rows)
 
-    df['Original file name'] = df['Original file name'].str.replace('_o3.jpg', '.tif')
+    df['Original file name'] = df['Original file name'].str.replace('.jpg', '.tif')
 
     # Drop the extra file name column
-    df = df.drop(['File name 1', 'File name 2', 'File name 3'], axis=1)
+    df = df.drop(['State', 'City', 'retired', 'Unidentified', 'File name 1', 'File name 2', 'File name 3', 'Business Subject', 'Image Subject'], axis=1)
 
     # Save the modified DataFrame to a new CSV file
     df.to_csv(output_csv_file, index=False)
